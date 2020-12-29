@@ -1,5 +1,7 @@
 <?php
 
+use MyProject\Exceptions\InvalidArgumentException;
+
 try {
     spl_autoload_register(function (string $className) {
         require_once __DIR__ . '/../src/' . $className . '.php';
@@ -37,7 +39,16 @@ $controllerName = $controllerAndAction[0];
 $actionName = $controllerAndAction[1];
 
 $controller = new $controllerName();
-$controller->$actionName(...$matches); // В $matches попадает только ключ (из адреса) и передается в заданный метод указанного класса
+
+// Обработка исключений когда в данные для отправки письма вставляем не существующего пользователя
+
+try { 
+    $controller->$actionName(...$matches); // В $matches попадает только ключ (из адреса) и передается в заданный метод указанного класса
+    } catch (InvalidArgumentException $e) {
+        $view = new \MyProject\View\View(__DIR__ . '/../templates/users');
+        $view->renderHtml('noUser.php', ['noUser' => $e->getMessage()]);
+    }
+
 }
 
 /*

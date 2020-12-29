@@ -39,10 +39,9 @@ class UsersController
 
     // Отправляем данные в класс для отправки писем EmailSender
 
-                EmailSender::send($user, 'Активация', 'userActivation.php', [
-                    'userId' => $user->getId(), // Могу добавить вместо "$user->getId()" несуществующего пользователя в ссылку письма $this->fake Я сделал для домашки
-                    'code' => $code // Данные для шаблона письма
-                ]);
+                EmailSender::send($user, 'Активация', 'userActivation.php',
+                    ['userId' => $this->fake, // Могу добавить вместо "$user->getId()" несуществующего пользователя в ссылку письма $this->fake Я сделал для домашки
+                    'code' => $code ]); // Данные для шаблона письма
 
     // Показываем шаблон об успешной регистрации
 
@@ -66,19 +65,23 @@ class UsersController
 
 // Аргументы приходят из адреса после проверки роута в файле index с помощью foreach
 
-public function activate(int $userId, string $activationCode)
-    {
-    /*Объект*/ $user= /*Класс*/ User::getById($userId); // Запускает метод getById для класса User и получает объект (данные для объекта из базы), userId получен из адреса из письма
+// Здесь мы снова получаем данные из POST запроса от пользователя, когда он переходит по ссылке из письма 
 
-// Отключал проверк когда добавлял несуществующий id в ссылку для активации
+public function activate(int $userId, string $activationCode) {
+    
+    $user=User::getById($userId); // Запускает метод getById для класса User и получает объект (данные для объекта из базы), userId получен из адреса из письма
 
-$isCodeValid = UserActivationService::checkActivationCode($user, $activationCode);
+// Бросаю исключение на случай когда добавляю не существующего пользователя
 
-$activateCode = ActivateCode::getByIdCode($userId); // Мой кодик, просто получаем объект для дальнейшего использования
+    throw new InvalidArgumentException('Пользователь не зарегистрирован!');
 
-// Сделали выборку по user_id в нужной нам таблице и получили объект
+// Отключал проверку когда добавлял несуществующий id в ссылку для активации
+    
+    $isCodeValid = UserActivationService::checkActivationCode($user, $activationCode);
 
-// Я написал для домашки по удалению кода
+    $activateCode = ActivateCode::getByIdCode($userId); // Мой кодик, просто получаем объект для дальнейшего использования
+
+// Сделали выборку по user_id в нужной нам таблице и получили объект. Я написал для домашки по удалению кода
 
     if ($isCodeValid) {
         $user->activate(); // Для объекта $user мы применяем метод activate(), который находится в модели
@@ -89,7 +92,7 @@ $activateCode = ActivateCode::getByIdCode($userId); // Мой кодик, про
         echo '</br></br>';
         var_dump($activateCode);
         $activateCode->delete_code(); // Я написал для домашки по удалению кода
-        echo '</br></br>'; // Я написал для домашки по удалению кода
+        echo '</br></br>';
         echo 'Код успешно удален'; // Я написал для домашки по удалению кода
         }
     }
