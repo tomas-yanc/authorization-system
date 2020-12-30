@@ -3,7 +3,6 @@
 namespace MyProject\Models\Users;
 
 use MyProject\Services\Db;
-use MyProject\Exceptions\InvalidArgumentException;
 
 class UserActivationService
 {
@@ -33,7 +32,7 @@ class UserActivationService
 
     // Проверяет есть ли в базе такой id и такой код. Получает аргументы из контроллера как и EmailSender
 
-    public static function checkActivationCode(user $user, string $code): bool
+    public static function checkActivationCode(User $user, string $code): bool
     {
         $db = Db::getInstance();
         $result = $db->query(
@@ -44,12 +43,6 @@ class UserActivationService
             ]
         );
         return !empty($result); // Возвращает не пустой результат, если в базе есть и пользователь и код для него
-
-            // Я добавил для домашки по добавлению несуществующего пользователя
-
-    if (empty($result)) {
-        throw new InvalidArgumentException('Пользователь не зарегистрирован!');
-    }
 
     }
 

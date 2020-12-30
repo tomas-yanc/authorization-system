@@ -1,12 +1,12 @@
 <?php
 
-namespace MyProject\Models\ActivateCodes;
+namespace MyProject\Models\Remove;
 
 use MyProject\Exceptions\InvalidArgumentException;
 use MyProject\Models\ActiveRecordEntity;
 use MyProject\Models\Users\User;
 
-class ActivateCode extends ActiveRecordEntity
+class RemoveActivationCode extends ActiveRecordEntity
 {
     /** @var string */
     protected $userId;

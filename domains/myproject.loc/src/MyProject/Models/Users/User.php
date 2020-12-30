@@ -109,7 +109,6 @@ class User extends ActiveRecordEntity
 {
     $this->isConfirmed = true;
     $this->save();
-    echo 'Этот текст лежит в модели' . '. ' . 'А функционал мы вызываем в контроллере';
 }
 
 }

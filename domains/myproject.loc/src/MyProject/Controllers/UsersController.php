@@ -6,7 +6,7 @@ use MyProject\View\View;
 use MyProject\Models\Users\User;
 use MyProject\Models\Users\UserActivationService;
 use MyProject\Models\Articles\Article;
-use MyProject\Models\ActivateCodes\ActivateCode;
+use MyProject\Models\Remove\RemoveActivationCode;
 use MyProject\Exceptions\InvalidArgumentException;
 use MyProject\Services\EmailSender;
 use MyProject\Models\ActiveRecordEntity;
@@ -16,12 +16,12 @@ class UsersController
 {
     /** @var View */
     private $view;
-    public $fake; // Я сделал для домашки
+    // public $fake; Я сделал для лобавления несуществующего пользователя в данные для отправки письма (id которого нет в базе)
 
     public function __construct()
     {
         $this->view = new View(__DIR__ . '/../../../templates');
-        $this->fake = 99; // Я сделал для домашки
+        // $this->fake = 99; Я сделал для лобавления несуществующего пользователя в данные для отправки письма (id которого нет в базе)
     }
 
     public function signUp() // Метод для отлова исключений и отправки данных в EmailSender
@@ -40,7 +40,7 @@ class UsersController
     // Отправляем данные в класс для отправки писем EmailSender
 
                 EmailSender::send($user, 'Активация', 'userActivation.php',
-                    ['userId' => $this->fake, // Могу добавить вместо "$user->getId()" несуществующего пользователя в ссылку письма $this->fake Я сделал для домашки
+                    ['userId' => $user->getId(), // Могу добавить вместо $user->getId() несуществующего пользователя в данные для отправки $this->fake
                     'code' => $code ]); // Данные для шаблона письма
 
     // Показываем шаблон об успешной регистрации
@@ -56,11 +56,8 @@ class UsersController
     }
 
 /*
-Метод для активации пользователя после перехода из письма
-Проверяет наличие пользователя и кода в базе.
-Если данные есть, то запускает метод в модели, 
-а там значение в is_confiremd меняется на true.
-И выводим "OK"
+Метод для активации пользователя после перехода из письма. Проверяет наличие пользователя и кода в базе.
+Если данные есть, то запускает метод в модели, а там значение в is_confiremd меняется на true. И выводим "OK. Активация прошла успешно!"
 */
 
 // Аргументы приходят из адреса после проверки роута в файле index с помощью foreach
@@ -71,27 +68,27 @@ public function activate(int $userId, string $activationCode) {
     
     $user=User::getById($userId); // Запускает метод getById для класса User и получает объект (данные для объекта из базы), userId получен из адреса из письма
 
-// Бросаю исключение на случай когда добавляю не существующего пользователя
+// Бросаю исключение на случай когда добавляю не существующего пользователя в данные для отправки письма (id которого нет в базе)
 
+if (!$user) {
     throw new InvalidArgumentException('Пользователь не зарегистрирован!');
+}
 
 // Отключал проверку когда добавлял несуществующий id в ссылку для активации
     
     $isCodeValid = UserActivationService::checkActivationCode($user, $activationCode);
 
-    $activateCode = ActivateCode::getByIdCode($userId); // Мой кодик, просто получаем объект для дальнейшего использования
+    $RemoveActivationCode = RemoveActivationCode::getByIdCode($userId); // Мой кодик, просто получаем объект для дальнейшего использования
 
 // Сделали выборку по user_id в нужной нам таблице и получили объект. Я написал для домашки по удалению кода
 
     if ($isCodeValid) {
         $user->activate(); // Для объекта $user мы применяем метод activate(), который находится в модели
         echo '</br></br>';
-        echo 'OK!';
+        echo 'OK. Активация прошла успешно!';
         echo '</br></br>';
-        echo 'Логика для вывода этого текста в контроллере';
-        echo '</br></br>';
-        var_dump($activateCode);
-        $activateCode->delete_code(); // Я написал для домашки по удалению кода
+        var_dump($RemoveActivationCode);
+        $RemoveActivationCode->delete_code(); // Я написал для домашки по удалению кода
         echo '</br></br>';
         echo 'Код успешно удален'; // Я написал для домашки по удалению кода
         }
