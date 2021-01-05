@@ -39,9 +39,14 @@ class UsersController
 
     // Отправляем данные в класс для отправки писем EmailSender
 
+                try {
                 EmailSender::send($user, 'Активация', 'userActivation.php',
                     ['userId' => $user->getId(), // Могу добавить вместо $user->getId() несуществующего пользователя в данные для отправки $this->fake
                     'code' => $code ]); // Данные для шаблона письма
+                } catch (InvalidArgumentException $e) {
+                    $this->view->renderHtml('users/noUser.php', ['noUser' => $e->getMessage()]);
+                    return;
+                }   
 
     // Показываем шаблон об успешной регистрации
 
@@ -84,10 +89,8 @@ if (!$user) {
 
     if ($isCodeValid) {
         $user->activate(); // Для объекта $user мы применяем метод activate(), который находится в модели
-        echo '</br></br>';
         echo 'OK. Активация прошла успешно!';
-        echo '</br></br>';
-        var_dump($RemoveActivationCode);
+//var_dump($RemoveActivationCode);
         $RemoveActivationCode->delete_code(); // Я написал для домашки по удалению кода
         echo '</br></br>';
         echo 'Код успешно удален'; // Я написал для домашки по удалению кода
