@@ -19,6 +19,10 @@ class EmailSender // Получаем из контроллера все дан�
     {
         extract($templateVars); // Делаем из массива строку
 
+        if (!$code) {
+            throw new InvalidArgumentException('Код активации не найден!');
+        }
+
         ob_start(); // Буфер
         require __DIR__ . '/../../../templates/mail/' . $templateName;
         $body = ob_get_contents();
@@ -26,8 +30,5 @@ class EmailSender // Получаем из контроллера все дан�
 
         mail($receiver->getEmail(), $subject, $body, 'Content-Type: text/html; charset=UTF-8'); // Функция отправки писем
 
-        if (!$code) {
-            throw new InvalidArgumentException('Код активации не найден!');
-        }
     }
 }                                                                       

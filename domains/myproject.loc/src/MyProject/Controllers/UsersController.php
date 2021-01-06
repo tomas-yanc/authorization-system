@@ -11,6 +11,7 @@ use MyProject\Exceptions\InvalidArgumentException;
 use MyProject\Services\EmailSender;
 use MyProject\Models\ActiveRecordEntity;
 use MyProject\Controllers\ActivateCodeController;
+use MyProject\Services\UsersAuthService;
 
 class UsersController
 {
@@ -91,10 +92,27 @@ if (!$user) {
         $user->activate(); // Для объекта $user мы применяем метод activate(), который находится в модели
         echo 'OK. Активация прошла успешно!';
 //var_dump($RemoveActivationCode);
-        $RemoveActivationCode->delete_code(); // Я написал для домашки по удалению кода
+        // $RemoveActivationCode->delete_code(); // Я написал для домашки по удалению кода
         echo '</br></br>';
-        echo 'Код успешно удален'; // Я написал для домашки по удалению кода
+        // echo 'Код успешно удален'; // Я написал для домашки по удалению кода
         }
+    }
+
+    public function login()
+    {
+        if (!empty($_POST)) {
+            try {
+                $user = User::login($_POST);
+                UsersAuthService::createToken($user);
+                header('Location: /');
+                exit();
+            } catch (InvalidArgumentException $e) {
+                $this->view->renderHtml('users/login.php', ['error' => $e->getMessage()]);
+                return;
+            }
+        }
+    
+        $this->view->renderHtml('users/login.php');
     }
 
 }

@@ -9,5 +9,6 @@ return [
     '~^articles/(\d+)/delete$~' => [\MyProject\Controllers\ArticlesController::class, 'delete_article'], // Удаляет статью по ее id
     '~^users/register$~' => [\MyProject\Controllers\UsersController::class, 'signUp'], // Для регистрации нового пользователя
     '~^users/(\d+)/activate/(.+)$~' => [\MyProject\Controllers\UsersController::class, 'activate'], // Для активации пользователя после перехода из письма
+    '~^users/login$~' => [\MyProject\Controllers\UsersController::class, 'login'], // Рендерит шаблон с формой авторизации
 ];
 
