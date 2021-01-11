@@ -6,17 +6,8 @@ use MyProject\Models\Users\User;
 use MyProject\Models\Articles\Article;
 use MyProject\View\View;
 
-class ArticlesController
+class ArticlesController extends AbstractController
 {
-    
-    /** @var View */
-    private $view;
-
-    public function __construct()
-    {
-        
-        $this->view = new View(__DIR__ . '/../../../templates'); // Подключение шаблона
-    }
 
 // Новый метод для вставки по active record
 

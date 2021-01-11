@@ -48,11 +48,6 @@ class User extends ActiveRecordEntity
         return $this->email;
     }
 
-    public function getAuthToken(): int // я написал гетер
-    {
-        return $this->authToken;
-    }
-
  /* 
  Статический метод, принимает на вход массив с данными, пришедшими от пользователя в POST запросе, 
  проверяет их и будет пытаться создать нового пользователя и сохранить его в базе
@@ -154,6 +149,11 @@ public function getPasswordHash(): string
 private function refreshAuthToken()
 {
     $this->authToken = sha1(random_bytes(100)) . sha1(random_bytes(100));
+}
+
+public function getAuthToken(): string // я написал гетер
+{
+    return $this->authToken;
 }
 
 }

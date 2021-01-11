@@ -13,18 +13,8 @@ use MyProject\Models\ActiveRecordEntity;
 use MyProject\Controllers\ActivateCodeController;
 use MyProject\Services\UsersAuthService;
 
-class UsersController
+class UsersController extends AbstractController
 {
-    /** @var View */
-    private $view;
-    // public $fake; Я сделал для лобавления несуществующего пользователя в данные для отправки письма (id которого нет в базе)
-
-    public function __construct()
-    {
-        $this->view = new View(__DIR__ . '/../../../templates');
-        // $this->fake = 99; Я сделал для лобавления несуществующего пользователя в данные для отправки письма (id которого нет в базе)
-    }
-
     public function signUp() // Метод для отлова исключений и отправки данных в EmailSender
     {
         if (!empty($_POST)) {
@@ -91,9 +81,12 @@ if (!$user) {
     if ($isCodeValid) {
         $user->activate(); // Для объекта $user мы применяем метод activate(), который находится в модели
         echo 'OK. Активация прошла успешно!';
-//var_dump($RemoveActivationCode);
+
+        //var_dump($RemoveActivationCode);
         // $RemoveActivationCode->delete_code(); // Я написал для домашки по удалению кода
+
         echo '</br></br>';
+        
         // echo 'Код успешно удален'; // Я написал для домашки по удалению кода
         }
     }
