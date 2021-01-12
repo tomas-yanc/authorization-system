@@ -2,9 +2,9 @@
 
 namespace MyProject\Controllers;
 
-use MyProject\Models\Users\User;
+use MyProject\Exceptions\NotFoundException;
 use MyProject\Models\Articles\Article;
-use MyProject\View\View;
+use MyProject\Models\Users\User;
 
 class ArticlesController extends AbstractController
 {

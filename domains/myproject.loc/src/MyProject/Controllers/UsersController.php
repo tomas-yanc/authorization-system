@@ -2,15 +2,10 @@
 
 namespace MyProject\Controllers;
 
-use MyProject\View\View;
+use MyProject\Exceptions\InvalidArgumentException;
 use MyProject\Models\Users\User;
 use MyProject\Models\Users\UserActivationService;
-use MyProject\Models\Articles\Article;
-use MyProject\Models\Remove\RemoveActivationCode;
-use MyProject\Exceptions\InvalidArgumentException;
 use MyProject\Services\EmailSender;
-use MyProject\Models\ActiveRecordEntity;
-use MyProject\Controllers\ActivateCodeController;
 use MyProject\Services\UsersAuthService;
 
 class UsersController extends AbstractController
@@ -106,6 +101,7 @@ if (!$user) {
         }
     
         $this->view->renderHtml('users/login.php');
+
     }
 
 }

@@ -3,7 +3,6 @@
 namespace MyProject\Controllers;
 
 use MyProject\Models\Articles\Article;
-use MyProject\View\View;
 
 class MainController extends AbstractController
 {
