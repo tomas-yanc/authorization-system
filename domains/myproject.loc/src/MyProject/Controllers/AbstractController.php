@@ -20,4 +20,12 @@ abstract class AbstractController
         $this->view = new View(__DIR__ . '/../../../templates');
         $this->view->setVar('user', $this->user);
     }
+
+    // Я добавил, чтобы передать $user для получения и вывода имени поьзователя
+
+    public function getArgument($user)
+    {
+        $this->$user= $user;
+    }
+   
 }

@@ -5,6 +5,7 @@ namespace MyProject\Models\Users;
 use MyProject\Models\ActiveRecordEntity;
 use MyProject\Exceptions\InvalidArgumentException;
 use MyProject\Services\UsersAuthService;
+use MyProject\Controllers\AbstractController; // Я добавил, чтобы передать $user для получения и вывода имени поьзователя
 
 class User extends ActiveRecordEntity
 {
@@ -144,6 +145,8 @@ public static function login(array $loginData): User
     $user->save();
 
     return $user;
+
+    AbstractController::getArgument($user); // Я добавил, чтобы передать $user для получения и вывода имени поьзователя
 
 }
 
