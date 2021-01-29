@@ -1,0 +1,65 @@
+.layout {
+    width: 100%;
+    max-width: 1024px;
+    margin: auto;
+    background-color: #B090C7;
+    border-collapse: collapse;
+}
+
+.layout tr td {
+    padding: 20px;
+    vertical-align: top;
+    border: solid 1px gray;
+}
+
+.header {
+    font-size: 30px;
+    background-color: #B69FC7;
+}
+
+.footer {
+    text-align: center;
+    background-color: #5F4E6B;
+    width: 100%;
+    max-width: 1024px;
+    margin: auto;
+    border-collapse: collapse;
+    color: wheat;
+}
+
+.sidebarHeader {
+    font-size: 20px;
+}
+
+.sidebar ul {
+    padding-left: 20px;
+}
+
+a, a:visited {
+    color: #360570;
+}
+
+body {
+    background-color: #beb1c7;
+}
+
+main {
+    width: 100%;
+    max-width: 1024px;
+    margin: auto;
+    background-color: #B090C7;
+    border-collapse: collapse;
+}
+/*
+h3 {
+    margin: 0;
+}
+
+p {
+    margin: 0;
+}
+
+ul {
+    margin: 0;
+}
+*/
