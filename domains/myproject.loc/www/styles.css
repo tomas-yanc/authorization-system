@@ -2,7 +2,7 @@
     width: 100%;
     max-width: 1024px;
     margin: auto;
-    background-color: white;
+    background-color: #B090C7;
     border-collapse: collapse;
 }
 
@@ -14,10 +14,12 @@
 
 .header {
     font-size: 30px;
+    background-color: #B69FC7;
 }
 
 .footer {
     text-align: center;
+    background-color: #5F4E6B;
 }
 
 .sidebarHeader {
@@ -29,5 +31,9 @@
 }
 
 a, a:visited {
-    color: darkgreen;
+    color: #360570;
+}
+
+body {
+    background-color: #202020;
 }

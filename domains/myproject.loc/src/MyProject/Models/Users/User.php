@@ -141,12 +141,12 @@ public static function login(array $loginData): User
         throw new InvalidArgumentException('Пользователь не подтверждён');
     }
 
-    $user->refreshAuthToken();
-    $user->save();
+    $user->refreshAuthToken(); // Создался новый токен вместо старого
+    $user->save(); // Записали в базу новый токен для объекта
 
     return $user;
 
-    AbstractController::getArgument($user); // Я добавил, чтобы передать $user для получения и вывода имени поьзователя
+    // AbstractController::getArgument($user); // Я добавил, чтобы передать $user для получения и вывода имени поьзователя
 
 }
 
