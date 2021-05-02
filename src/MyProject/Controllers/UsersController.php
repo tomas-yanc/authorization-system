@@ -69,8 +69,6 @@ if (!$user) {
     
     $isCodeValid = UserActivationService::checkActivationCode($user, $activationCode);
 
-    $RemoveActivationCode = RemoveActivationCode::getByIdCode($userId); // Мой кодик, просто получаем объект для дальнейшего использования
-
 // Сделали выборку по user_id в нужной нам таблице и получили объект. Я написал для домашки по удалению кода
 
     if ($isCodeValid) {
